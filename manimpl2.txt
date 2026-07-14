@@ -1,0 +1,25 @@
+ The Two Flavors of ManimThere are two main versions of the library today:
+ManimCommunity (Recommended): The community-maintained fork. It is regularly updated, has excellent documentation, and is highly stable.ManimGL:
+ The original repository maintained by 3Blue1Brown.
+ It uses OpenGL for real-time rendering and interactivity, though it can be a bit more experimental.
+
+2. Core Building Blocks: MobjectsEverything you see on screen in Manim is a Mobject (Mathematical Object).Basic Shapes: Circle, Square, Rectangle, Line.Text & Math: 
+Text, Paragraph, and crucially, MathTex (which lets you render beautiful, native LaTeX equations).Coordinate Systems: NumberLine, Axes, NumberPlane (perfect for graphing functions like $y = x^2$).
+3. Creating Motion: Animations & ScenesYou write Manim code inside a class that inherits from Scene. To animate things, you use self.play() along with built-in animation methods:Creation: Create(mobject), Write(text), FadeIn(mobject)Transformation: Transform(mobject1, mobject2) — smoothly morphs one shape or equation into another.Movement: Rotate(), Shift(), Scale()
+4. High-Quality Rendering ControlWhen running Manim from your terminal, you can control the quality and speed of the output using flags:-ql (Low quality, 480p): Fast rendering, perfect for testing your code quickly.-qh (High quality, 1080p): Crisp resolution for final videos.-qp (Preview): Automatically plays the video as soon as the rendering finishes.-s (Save frame): Renders just the very last frame as a static PNG image.
+5. Smooth Camera ManipulationManim features a moving camera scene (MovingCameraScene). This allows you to zoom in on specific parts of a graph, pan across a massive coordinate system, or track a moving object dynamically to keep the focus right where you want it.
+6. Quick Code ExampleHere is how simple it is to write a basic "Hello World" animation in Manim:Pythonfrom manim import *
+
+class SquareToCircle(Scene):
+    def construct(self):
+        # Create the objects
+        circle = Circle(color=PINK)
+        square = Square(color=BLUE)
+        
+        # Draw the square on screen
+        self.play(Create(square))
+        self.wait(1)
+        
+        # Morph the square into a pink circle
+        self.play(Transform(square, circle))
+        self.wait(1)
