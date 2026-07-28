@@ -1,0 +1,141 @@
+INTRODUCTION TO DART
+
+void main() {
+  print('Hello, World!');
+}
+
+
+********************************************
+Variables
+#
+Even in type-safe Dart code, you can declare most variables without explicitly specifying their type using var. Thanks to type inference, these variables' types are determined by their initial values:
+var name = 'Voyager I';
+var year = 1977;
+var antennaDiameter = 3.7;
+var flybyObjects = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'];
+var image = {
+  'tags': ['saturn'],
+  'url': '//path/to/saturn.jpg',
+};
+
+
+************************************************
+Control flow statements
+control flow statements in Dart, including break and continue, switch and case, and assert.
+
+
+
+***************************************************
+COMMENTS
+Dart comments usually start with //.
+
+
+
+*************************************************
+Functions
+A shorthand => (arrow) syntax is handy for functions that contain a single statement. This syntax is especially useful when passing anonymous functions as arguments:
+flybyObjects.where((name) => name.contains('turn')).forEach(print));
+
+
+
+****************************************************
+Imports
+To access APIs defined in other libraries, use import.
+// Importing core libraries
+import 'dart:math';
+// Importing libraries from external packages
+import 'package:test/test.dart';
+// Importing files
+import 'path/to/my_other_file.dart';
+
+********************************************************
+classes
+ a class with three properties, two constructors, and a method. One of the properties can't be set directly, so it's defined using a getter method (instead of a variable). The method uses string interpolation to print variables' string equivalents inside of string literals.
+class Spacecraft {
+  String name;
+  DateTime? launchDate;
+
+  // Read-only non-final property
+  int? get launchYear => launchDate?.year;
+
+  // Constructor, with syntactic sugar for assignment to members.
+  Spacecraft(this.name, this.launchDate) {
+    // Initialization code goes here.
+  }
+
+  // Named constructor that forwards to the default one.
+  Spacecraft.unlaunched(String name) : this(name, null);
+
+  // Method.
+  void describe() {
+    print('Spacecraft: $name');
+    // Type promotion doesn't work on getters.
+    var launchDate = this.launchDate;
+    if (launchDate != null) {
+      int years = DateTime.now().difference(launchDate).inDays ~/ 365;
+      print('Launched: $launchYear ($years years ago)');
+    } else {
+      print('Unlaunched');
+    }
+  }
+}
+
+You might use the Spacecraft class like this:
+
+var voyager = Spacecraft('Voyager I', DateTime(1977, 9, 5));
+voyager.describe();
+
+var voyager3 = Spacecraft.unlaunched('Voyager III');
+voyager3.describe();
+
+***************************************************
+Enums
+#
+Enums are a way of enumerating a predefined set of values or instances in a way which ensures that there cannot be any other instances of that type.
+
+Here is an example of a simple enum that defines a simple list of predefined planet types:
+
+enum PlanetType { terrestrial, gas, ice }
+
+
+*****************************************************
+Mixins
+#
+Mixins are a way of reusing code in multiple class hierarchies. The following is a mixin declaration:
+
+mixin Piloted {
+  int astronauts = 1;
+
+  void describeCrew() {
+    print('Number of astronauts: $astronauts');
+  }
+}
+To add a mixin's capabilities to a class, just extend the class with the mixin.
+
+class PilotedCraft extends Spacecraft with Piloted {
+  // ···
+}
+PilotedCraft now has the astronauts field as well as the describeCrew() method.
+
+
+nterfaces and abstract classes
+#
+All classes implicitly define an interface. Therefore, you can implement any class.
+
+class MockSpaceship implements Spacecraft {
+  // ···
+}
+
+
+************************************************************
+Async
+#
+Avoid callback hell and make your code much more readable by using async and await.
+
+const oneSecond = Duration(seconds: 1);
+// ···
+Future<void> printWithDelay(String message) async {
+  await Future.delayed(oneSecond);
+  print(message);
+}
+
